@@ -40,16 +40,16 @@
         </div>
         <div class="row justify-content-center">
           <div class="col-md-6">
-            <div class="card mt-5">
+            <div class="card mt-5 border border-primary border-3">
               <div class="card-body">
                 <div class="row row-cols-1 row-cols-md-4 g-4">
                   <template x-for="card in leftCards">
                     <div class="col">
-                      <div class="card">
+                      <div class="card border-0">
                         <div class="card-body text-center">
                           <i
-                            x-bind:class="`bi bi-${card}`"
-                            style="font-size: 2rem; color: rgb(38, 87, 179)"
+                            x-bind:class="`bi bi-${card} text-primary`"
+                            style="font-size: 2rem"
                           ></i>
                         </div>
                       </div>
@@ -60,16 +60,16 @@
             </div>
           </div>
           <div class="col-md-6">
-            <div class="card mt-5">
+            <div class="card mt-5 border border-primary border-3">
               <div class="card-body">
                 <div class="row row-cols-1 row-cols-md-4 g-4">
                   <template x-for="card in rightCards">
                     <div class="col">
-                      <div class="card text-center">
-                        <div class="card-body">
+                      <div class="card border-0">
+                        <div class="card-body text-center">
                           <i
-                            x-bind:class="`bi bi-${card}`"
-                            style="font-size: 2rem; color: rgb(38, 87, 179)"
+                            x-bind:class="`bi bi-${card} text-primary`"
+                            style="font-size: 2rem"
                           ></i>
                         </div>
                       </div>
@@ -77,43 +77,6 @@
                   </template>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-        <div class="row justify-content-start mt-3">
-          <div class="col-2">
-            <button
-              x-show="!addingPlayer"
-              x-on:click="addingPlayer = true"
-              class="btn btn-sm btn-primary float-start"
-            >
-              Add Player
-            </button>
-            <div x-show="addingPlayer">
-              <div class="mb-3">
-                <label for="playerName" class="form-label">Player Name</label>
-                <input
-                  @keyup.enter="saveNewPlayer()"
-                  x-model="newPlayerName"
-                  type="text"
-                  class="form-control"
-                  id="playerName"
-                />
-              </div>
-              <button
-                x-on:click="saveNewPlayer()"
-                type="button"
-                class="btn btn-primary"
-              >
-                Submit
-              </button>
-              <button
-                x-on:click="cancelAddPlayer()"
-                type="button"
-                class="btn btn-secondary"
-              >
-                Cancel
-              </button>
             </div>
           </div>
         </div>
@@ -138,7 +101,7 @@
                     </div>
                     <div class="card-body pt-0">
                       <h5
-                        class="card-title text-primary mb-3"
+                        class="card-title text-secondary mb-3"
                         x-text="`${player.name} (${player.score})`"
                       ></h5>
                       <button
@@ -166,6 +129,43 @@
               <h5 x-text="`${winner} is the winner!`" class="mb-3"></h5>
               <button x-on:click="newGame()" class="btn btn-success">
                 New Game
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-start mt-3">
+          <div class="col-2">
+            <button
+              x-show="!addingPlayer"
+              x-on:click="addingPlayer = true"
+              class="btn btn-sm btn-warning float-start border border-secondary"
+            >
+              Add Player
+            </button>
+            <div x-show="addingPlayer">
+              <div class="mb-3">
+                <label for="playerName" class="form-label">Player Name</label>
+                <input
+                  @keyup.enter="saveNewPlayer()"
+                  x-model="newPlayerName"
+                  type="text"
+                  class="form-control"
+                  id="playerName"
+                />
+              </div>
+              <button
+                x-on:click="saveNewPlayer()"
+                type="button"
+                class="btn btn-primary"
+              >
+                Submit
+              </button>
+              <button
+                x-on:click="cancelAddPlayer()"
+                type="button"
+                class="btn btn-secondary"
+              >
+                Cancel
               </button>
             </div>
           </div>
