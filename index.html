@@ -19,26 +19,23 @@
   <body>
     <main class="py-4" x-data="app()" x-init="init">
       <div class="container">
-        <div class="row justify-content-between">
-          <div class="col-6">
-            <button x-on:click="shuffle()" class="btn btn-success float-start">
-              Spot It!
-            </button>
-          </div>
+        <div class="row justify-content-end">
           <div class="col-2">
             <form class="form-floating">
               <input
                 x-model="winningScore"
-                type="email"
-                class="form-control"
-                id="floatingInputValue"
-                value="test@example.com"
+                type="text"
+                class="form-control float-start"
+                id="winningScore"
               />
-              <label for="floatingInputValue">Winning Score</label>
+              <label class="text-primary" for="winningScore"
+                >Winning Score</label
+              >
             </form>
           </div>
         </div>
         <div class="row justify-content-center">
+          <!-- Left Cards -->
           <div class="col-md-6">
             <div class="card mt-5 border border-primary border-3">
               <div class="card-body">
@@ -59,6 +56,7 @@
               </div>
             </div>
           </div>
+          <!-- Right Cards -->
           <div class="col-md-6">
             <div class="card mt-5 border border-primary border-3">
               <div class="card-body">
@@ -80,10 +78,19 @@
             </div>
           </div>
         </div>
+        <!-- Spot It! -->
+        <div x-show="!hasWinner" class="row justify-content-center mt-2">
+          <div class="col-12 mt-2 text-center">
+            <button x-on:click="shuffle()" :class="needsPointAssignment ? 'btn btn-outline-success' : 'btn btn-success'">
+              Spot It! <i class="bi bi-arrow-counterclockwise"></i>
+            </button>
+          </div>
+        </div>
+        <!-- Players -->
         <div class="row justify-content-center mt-2">
           <div class="row row-cols-1 row-cols-md-4 g-4 mt-0 ps-0">
             <template x-for="player in players">
-              <div class="col text-center mt-5" x-show="!hasWinner">
+              <div class="col text-center mt-0" x-show="!hasWinner">
                 <div class="card" style="width: 18rem">
                   <div x-show="players.length">
                     <div
@@ -101,22 +108,20 @@
                     </div>
                     <div class="card-body pt-0">
                       <h5
-                        class="card-title text-secondary mb-3"
+                        class="card-title text-secondary mb-0"
                         x-text="`${player.name} (${player.score})`"
                       ></h5>
-                      <button
+                      <i
                         x-show="needsPointAssignment"
                         x-on:click="addPoint(player.name)"
-                        class="btn btn-sm btn-success"
-                      >
-                        Add Point
-                      </button>
-                      <button
+                        class="bi bi-plus-circle text-success mt-0"
+                        style="font-size: 2rem; cursor: pointer"
+                      ></i>
+                      <i
                         x-show="!needsPointAssignment"
-                        class="btn btn-sm btn-outline-success"
-                        disabled
-                      >
-                        Add Point
+                        class="bi bi-plus-circle text-success mt-0"
+                        style="font-size: 2rem; opacity: 0.4;"
+                      ></i>
                       </button>
                     </div>
                   </div>
@@ -124,15 +129,19 @@
               </div>
             </template>
           </div>
-          <div x-show="hasWinner" class="row justify-content-center">
-            <div class="col-6 text-center">
-              <h5 x-text="`${winner} is the winner!`" class="mb-3"></h5>
-              <button x-on:click="newGame()" class="btn btn-success">
-                New Game
-              </button>
+          <!-- Has Winner -->
+          <div x-show="hasWinner" class="px-4 text-center">
+            <i class="bi bi-trophy mt-0" style="font-size: 4rem; color: gold"></i>
+            <h1 x-text="`${winner} is the winner!`" class="display-5 fw-bold"></h1>
+            <div class="col-lg-6 mx-auto">
+              <p class="lead mb-4">Click "Play Again" below to start a new game!</p>
+              <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                <button x-on:click="newGame()" type="button" class="btn btn-primary btn-lg px-4 gap-3">Play Again</button>
+              </div>
             </div>
           </div>
         </div>
+        <!-- Add Player Form -->
         <div class="row justify-content-start mt-3">
           <div class="col-2">
             <button
