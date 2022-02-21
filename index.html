@@ -17,7 +17,7 @@
     />
   </head>
   <body>
-    <main class="py-4" x-data="init()">
+    <main class="py-4" x-data="app()" x-init="init">
       <div class="container">
         <div class="row justify-content-between">
           <div class="col-6">
@@ -281,36 +281,23 @@
         'yin-yang',
       ]
 
-      function shuffle() {
-        let options = optionsList
-        let match = _.sample(options)
-
-        options = _.reject(options, (option) => option === match)
-        this.leftCards = _.sample(options, 7)
-        this.leftCards.push(match)
-        this.leftCards = _.shuffle(this.leftCards)
-
-        options = _.reject(options, (option) =>
-          _.contains(this.leftCards, option)
-        )
-        this.rightCards = _.sample(options, 7)
-        this.rightCards.push(match)
-        this.rightCards = _.shuffle(this.rightCards)
-
-        this.needsPointAssignment = true
-      }
-
-      function init() {
-        shuffle()
-        let players = JSON.parse(storage.getItem('players')) || []
+      function app() {
         return {
-          players,
+          players: JSON.parse(storage.getItem('players')) || [],
+          leftCards: [],
+          rightCards: [],
           addingPlayer: false,
           newPlayerName: '',
           needsPointAssignment: true,
           hasWinner: false,
           winner: '',
-          winningScore: 10,
+          winningScore: JSON.parse(storage.getItem('winningScore')) || 10,
+          init() {
+            this.$watch('winningScore', (v) => {
+              storage.setItem('winningScore', v)
+            })
+            this.shuffle()
+          },
           saveNewPlayer() {
             this.players.push({
               name: this.newPlayerName,
@@ -354,7 +341,24 @@
             this.needsPointAssignment = true
             shuffle()
           },
-          shuffle,
+          shuffle() {
+            let options = optionsList
+            let match = _.sample(options)
+
+            options = _.reject(options, (option) => option === match)
+            this.leftCards = _.sample(options, 7)
+            this.leftCards.push(match)
+            this.leftCards = _.shuffle(this.leftCards)
+
+            options = _.reject(options, (option) =>
+              _.contains(this.leftCards, option)
+            )
+            this.rightCards = _.sample(options, 7)
+            this.rightCards.push(match)
+            this.rightCards = _.shuffle(this.rightCards)
+
+            this.needsPointAssignment = true
+          },
         }
       }
     </script>
