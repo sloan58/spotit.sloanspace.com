@@ -11,26 +11,30 @@
     <div class="text-red-500" style="display: none"></div>
     <main class="py-4" x-data="app()" x-init="init">
       <div class="container mx-auto px-4">
-        <h1
-          class="mt-10 text-7xl text-center font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-white to-purple-900"
-        >
-          Spawt It!
-        </h1>
-        <div class="grid grid-cols-8 gap-4">
-          <div class="relative z-0 mb-6 w-full group">
-            <input
-              x-model="winningScore"
-              type="text"
-              name="floating_winning_score"
-              class="block py-2.5 px-0 w-full text-sm text-blue-900 bg-transparent border-0 border-b-2 border-blue-300 appearance-none dark:text-white dark:border-blue-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
-              required
-            />
-            <label
-              for="floating_winning_score"
-              class="font-extrabold absolute text-sm text-blue-500 dark:text-blue-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >Winning Score:</label
+        <div class="flex justify-between mt-5">
+          <div>
+            <h1
+              class="text-7xl text-center font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-white to-purple-900"
             >
+              Spawt It!
+            </h1>
+          </div>
+          <div>
+            <div class="relative z-0 w-full group mt-5">
+              <input
+                x-model="winningScore"
+                type="text"
+                name="floating_winning_score"
+                class="block py-2.5 px-0 w-full text-sm text-blue-900 bg-transparent border-0 border-b-2 border-blue-300 appearance-none dark:text-white dark:border-blue-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" "
+                required
+              />
+              <label
+                for="floating_winning_score"
+                class="font-extrabold absolute text-sm text-blue-500 dark:text-blue-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                >Winning Score:</label
+              >
+            </div>
           </div>
         </div>
         <div class="grid grid-cols-2 gap-4 mt-8">
