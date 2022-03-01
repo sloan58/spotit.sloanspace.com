@@ -6,57 +6,194 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Spawt It!</title>
     <link href="/app.css" rel="stylesheet" />
+    <script
+      src="https://kit.fontawesome.com/afe34f5adc.js"
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body class="bg-gray-900">
     <div class="text-red-500" style="display: none"></div>
     <main class="py-4" x-data="app()" x-init="init">
       <div class="container mx-auto px-4">
-        <div class="flex justify-between mt-5">
-          <div>
-            <h1
-              class="text-7xl text-center font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-white to-purple-900"
-            >
-              Spawt It!
-            </h1>
-          </div>
-          <div>
-            <div class="relative z-0 w-full group mt-5">
-              <input
-                x-model="winningScore"
-                type="text"
-                name="floating_winning_score"
-                class="block py-2.5 px-0 w-full text-sm text-blue-900 bg-transparent border-0 border-b-2 border-blue-300 appearance-none dark:text-white dark:border-blue-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                placeholder=" "
-                required
-              />
-              <label
-                for="floating_winning_score"
-                class="font-extrabold absolute text-sm text-blue-500 dark:text-blue-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                >Winning Score:</label
+        <div x-show="!hasWinner">
+          <div class="flex justify-between mt-5">
+            <div>
+              <h1
+                class="text-7xl text-center font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-white to-purple-900"
               >
+                Spawt It!
+              </h1>
+            </div>
+            <div>
+              <div class="relative z-0 w-full group mt-5">
+                <input
+                  x-model="winningScore"
+                  type="text"
+                  name="floating_winning_score"
+                  class="block py-2.5 px-0 w-full text-sm text-blue-900 bg-transparent border-0 border-b-2 border-blue-300 appearance-none dark:text-white dark:border-blue-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  placeholder=" "
+                  required
+                />
+                <label
+                  for="floating_winning_score"
+                  class="font-extrabold absolute text-sm text-blue-500 dark:text-blue-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                  >Winning Score:</label
+                >
+              </div>
             </div>
           </div>
+          <div class="grid grid-cols-2 gap-4 mt-8">
+            <!-- Left Cards -->
+            <div
+              class="rounded-xl w-full bg-gradient-to-r p-1 from-[#7928ca] to-[#ff0080]"
+            >
+              <div
+                class="block p-6 bg-white rounded-lg shadow-md dark:bg-gray-900 dark:border-gray-700"
+              >
+                <div class="grid grid-cols-4 gap-4" id="leftCards"></div>
+              </div>
+            </div>
+            <!-- /Left Cards -->
+            <!-- Right Cards -->
+            <div
+              class="rounded-xl w-full bg-gradient-to-r p-1 from-[#7928ca] to-[#ff0080]"
+            >
+              <div
+                class="block p-6 bg-white rounded-lg shadow-md dark:bg-gray-900 dark:border-gray-700"
+              >
+                <div class="grid grid-cols-4 gap-4" id="rightCards"></div>
+              </div>
+            </div>
+          </div>
+          <!-- /Right Cards -->
+          <!-- Add Player Form -->
+          <div class="mt-5">
+            <div x-show="!addingPlayer" class="flex justify-between mt-5">
+              <div class="flex cursor-pointer" @click="addingPlayer = true">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-10 w-10 text-yellow-300"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <p class="text-green-100 text-xl underline m-2">Add Player</p>
+              </div>
+              <button
+                x-on:click="shuffle()"
+                type="button"
+                class="text-center text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 my-5"
+              >
+                Spawt It!
+              </button>
+            </div>
+            <div x-show="addingPlayer">
+              <div class="relative z-0 mb-6 group">
+                <input
+                  @keyup.enter="saveNewPlayer()"
+                  x-model="newPlayerName"
+                  type="text"
+                  name="floating_name"
+                  class="block py-2.5 px-0 text-lg text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-blue-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                />
+                <label
+                  for="floating_name"
+                  class="font-extrabold absolute text-sm text-blue-500 dark:text-blue-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                  >Player Name</label
+                >
+              </div>
+              <button
+                @click="saveNewPlayer()"
+                type="button"
+                class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+              >
+                Save
+              </button>
+              <button
+                @click="cancelAddPlayer"
+                type="button"
+                class="text-gray-900 bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-l hover:from-teal-200 hover:to-lime-200 focus:ring-4 focus:ring-lime-200 dark:focus:ring-teal-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+          <!-- /Add Player Form -->
+          <!-- Players -->
+          <div class="grid grid-cols-6 gap-4 mt-3">
+            <template x-for="player in players">
+              <div
+                class="p-3 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
+              >
+                <div class="flex justify-between">
+                  <p
+                    x-text="`${player.name} (${player.score})`"
+                    class="mb-3 font-normal text-gray-200 dark:text-gray-200"
+                  ></p>
+                  <svg
+                    x-on:click="removePlayer(player.name)"
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4 text-red-400 cursor-pointer"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </div>
+                <div x-show="needsPointAssignment">
+                  <div
+                    x-on:click="addPoint(player.name)"
+                    class="flex cursor-pointer"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-7 w-7 text-green-400 cursor-pointer"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    <p class="text-green-100 m-1">Add Point</p>
+                  </div>
+                </div>
+              </div>
+            </template>
+          </div>
+          <!-- /Players -->
         </div>
-        <div class="grid grid-cols-2 gap-4 mt-8">
-          <!-- Left Cards -->
-          <div
-            class="rounded-xl w-full bg-gradient-to-r p-1 from-[#7928ca] to-[#ff0080]"
-          >
-            <div
-              class="block p-6 bg-white rounded-lg shadow-md dark:bg-gray-900 dark:border-gray-700"
+        <div x-show="hasWinner">
+          <div class="text-center mt-24">
+            <i class="fas fa-award text-yellow-500 text-9xl"></i>
+            <h1
+              class="text-gray-200 mt-5 text-4xl"
+              x-text="`${winner} is the winner!`"
+            ></h1>
+            <button
+              x-on:click="newGame()"
+              type="button"
+              class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 my-5"
             >
-              <div class="grid grid-cols-4 gap-4" id="leftCards"></div>
-            </div>
-          </div>
-          <!-- Right Cards -->
-          <div
-            class="rounded-xl w-full bg-gradient-to-r p-1 from-[#7928ca] to-[#ff0080]"
-          >
-            <div
-              class="block p-6 bg-white rounded-lg shadow-md dark:bg-gray-900 dark:border-gray-700"
-            >
-              <div class="grid grid-cols-4 gap-4" id="rightCards"></div>
-            </div>
+              Play Again
+            </button>
           </div>
         </div>
       </div>
@@ -307,7 +444,7 @@
         'zoom-out',
       ]
 
-      function addIcon(id, icon) {
+      function addImage(id, icon) {
         fetch(`/svgs/${icon}.svg`)
           .then((r) => r.text())
           .then((text) => {
@@ -319,6 +456,11 @@
               '</div>'
           })
           .catch(console.error.bind(console))
+      }
+
+      function clearImages(id) {
+        el = document.getElementById(id)
+        el.innerHTML = ''
       }
 
       function app() {
@@ -346,6 +488,7 @@
             storage.setItem('players', JSON.stringify(this.players))
             this.addingPlayer = false
             this.newPlayerName = ''
+            console.log(this.players)
           },
           cancelAddPlayer() {
             this.addingPlayer = false
@@ -382,6 +525,9 @@
             shuffle()
           },
           shuffle() {
+            clearImages('leftCards')
+            clearImages('rightCards')
+
             let options = optionsList
             let match = _.sample(options)
 
@@ -400,11 +546,11 @@
             this.needsPointAssignment = true
 
             _.each(this.leftCards, (leftCard) => {
-              addIcon('leftCards', leftCard)
+              addImage('leftCards', leftCard)
             })
 
             _.each(this.rightCards, (rightCard) => {
-              addIcon('rightCards', rightCard)
+              addImage('rightCards', rightCard)
             })
           },
         }
