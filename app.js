@@ -41,11 +41,22 @@ let rotations = [
   'fa-flip-both',
 ]
 
+let textSizes = [
+  'text-xl',
+  'text-2xl',
+  'text-3xl',
+  'text-4xl',
+  'text-5xl',
+  'text-6xl',
+  'text-7xl',
+  'text-8xl',
+]
+
 function buildCards(cards) {
   return _.map(cards, (card) => {
     return {
       icon: card,
-      size: 'text-' + _.sample(_.range(2, 9)) + 'xl',
+      size: _.sample(textSizes),
       color: _.sample(colors),
       rotation: _.sample(rotations),
     }

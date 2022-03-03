@@ -47,15 +47,15 @@
           <div class="grid grid-cols-2 gap-4 mt-8">
             <!-- Left Cards -->
             <div
-              class="rounded-xl w-full bg-gradient-to-r p-1 from-[#7928ca] to-[#ff0080]"
+              class="rounded-full w-full bg-gradient-to-r p-1 from-[#7928ca] to-[#ff0080]"
             >
               <div
-                class="block p-6 bg-white rounded-lg shadow-md dark:bg-gray-900 dark:border-gray-700"
+                class="min-h-full block p-12 bg-white rounded-full shadow-md dark:bg-gray-900 dark:border-gray-700"
               >
                 <div class="grid grid-cols-4 gap-4 text-center">
                   <template x-for="card in leftCards">
                     <i
-                      x-bind:class="`fa-solid ${card.icon} ${card.rotation} text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br ${card.color}`"
+                      x-bind:class="`fa-solid ${card.icon} ${card.rotation} ${card.size} font-extrabold text-transparent bg-clip-text bg-gradient-to-br ${card.color}`"
                     ></i>
                   </template>
                 </div>
@@ -64,15 +64,15 @@
             <!-- /Left Cards -->
             <!-- Right Cards -->
             <div
-              class="rounded-xl w-full bg-gradient-to-r p-1 from-[#7928ca] to-[#ff0080]"
+              class="rounded-full w-full bg-gradient-to-r p-1 from-[#7928ca] to-[#ff0080]"
             >
               <div
-                class="block p-6 bg-white rounded-lg shadow-md dark:bg-gray-900 dark:border-gray-700"
+                class="min-h-full block p-12 bg-white rounded-full shadow-md dark:bg-gray-900 dark:border-gray-700"
               >
                 <div class="grid grid-cols-4 gap-4 text-center">
                   <template x-for="card in rightCards">
                     <i
-                      x-bind:class="`fa-solid ${card.icon} ${card.rotation} text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br ${card.color}`"
+                      x-bind:class="`fa-solid ${card.icon} ${card.rotation} ${card.size} font-extrabold text-transparent bg-clip-text bg-gradient-to-br ${card.color}`"
                     ></i>
                   </template>
                 </div>
