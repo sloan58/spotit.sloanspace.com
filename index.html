@@ -15,7 +15,6 @@
     />
   </head>
   <body class="bg-gray-900">
-    <div class="text-red-500" style="display: none"></div>
     <main class="py-4" x-data="app()" x-init="init">
       <div class="container mx-auto px-4">
         <div x-show="!hasWinner">
@@ -56,7 +55,7 @@
                 <div class="grid grid-cols-4 gap-4 text-center">
                   <template x-for="card in leftCards">
                     <i
-                      x-bind:class="`${card} text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-pink-400 to-red-600`"
+                      x-bind:class="`fa-solid ${card.icon} ${card.rotation} text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br ${card.color}`"
                     ></i>
                   </template>
                 </div>
@@ -73,7 +72,7 @@
                 <div class="grid grid-cols-4 gap-4 text-center">
                   <template x-for="card in rightCards">
                     <i
-                      x-bind:class="`${card} text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-pink-400 to-red-600`"
+                      x-bind:class="`fa-solid ${card.icon} ${card.rotation} text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br ${card.color}`"
                     ></i>
                   </template>
                 </div>
@@ -223,111 +222,6 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
-    <script>
-      const storage = window.localStorage
-      let optionsList = [
-        'fa-solid fa-bath',
-        'fa-solid fa-beer-mug-empty',
-        'fa-solid fa-bomb',
-        'fa-solid fa-brush',
-        'fa-solid fa-camera-retro',
-        'fa-solid fa-dragon',
-        'fa-solid fa-fire',
-        'fa-solid fa-floppy-disk',
-        'fa-solid fa-ghost',
-        'fa-solid fa-guitar',
-        'fa-solid fa-hand-spock',
-        'fa-solid fa-ice-cream',
-        'fa-solid fa-motorcycle',
-        'fa-solid fa-mug-saucer',
-        'fa-solid fa-poo',
-        'fa-solid fa-record-vinyl',
-        'fa-solid fa-skull-crossbones',
-        'fa-solid fa-socks',
-        'fa-solid fa-umbrella-beach',
-      ]
-
-      function app() {
-        return {
-          players: JSON.parse(storage.getItem('players')) || [],
-          leftCards: [],
-          rightCards: [],
-          addingPlayer: false,
-          newPlayerName: '',
-          needsPointAssignment: true,
-          hasWinner: false,
-          winner: '',
-          winningScore: JSON.parse(storage.getItem('winningScore')) || 10,
-          init() {
-            this.$watch('winningScore', (v) => {
-              storage.setItem('winningScore', v)
-            })
-            this.shuffle()
-          },
-          saveNewPlayer() {
-            this.players.push({
-              name: this.newPlayerName,
-              score: 0,
-            })
-            storage.setItem('players', JSON.stringify(this.players))
-            this.addingPlayer = false
-            this.newPlayerName = ''
-            console.log(this.players)
-          },
-          cancelAddPlayer() {
-            this.addingPlayer = false
-            this.newPlayerName = ''
-          },
-          removePlayer(player) {
-            this.players = _.reject(this.players, (p) => p.name === player)
-            storage.setItem('players', JSON.stringify(this.players))
-          },
-          addPoint(player) {
-            this.players = this.players.map((p) => {
-              if (p.name === player) {
-                p.score++
-              }
-              return p
-            })
-            _.each(this.players, (player) => {
-              if (player.score >= this.winningScore) {
-                this.hasWinner = true
-                this.winner = player.name
-                this.players = _.map(this.players, (player) => {
-                  player.score = 0
-                  return player
-                })
-              }
-            })
-            storage.setItem('players', JSON.stringify(this.players))
-            this.needsPointAssignment = false
-          },
-          newGame() {
-            this.hasWinner = false
-            this.winner = ''
-            this.needsPointAssignment = true
-            shuffle()
-          },
-          shuffle() {
-            let options = optionsList
-            let match = _.sample(options)
-
-            options = _.reject(options, (option) => option === match)
-            this.leftCards = _.sample(options, 7)
-            this.leftCards.push(match)
-            this.leftCards = _.shuffle(this.leftCards)
-
-            options = _.reject(options, (option) =>
-              _.contains(this.leftCards, option)
-            )
-            this.rightCards = _.sample(options, 7)
-            this.rightCards.push(match)
-            this.rightCards = _.shuffle(this.rightCards)
-
-            this.needsPointAssignment = true
-          },
-        }
-      }
-    </script>
+    <script src="/app.js"></script>
   </body>
 </html>
